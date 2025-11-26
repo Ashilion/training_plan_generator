@@ -69,7 +69,7 @@ class RunningPlanGenerator:
             temperature=0.7,
             top_p=0.9,
             repeat_penalty=1.1,
-            stop=["</s>", "<|user|>"],
+            stop=["<end_of_turn>"],
             echo=False
         )
         
