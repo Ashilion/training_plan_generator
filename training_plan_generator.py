@@ -15,7 +15,7 @@ class RunningPlanGenerator:
     """Generate running training plans using GGUF model"""
     
     def __init__(self):
-        self.repo_id = "Ashilion/gemma-gguf-q4"
+        self.repo_id = "Ashilion/wasu-llama-gguf-q4"
         self.filename = "model.gguf"
         self.model = None
     
@@ -47,20 +47,21 @@ class RunningPlanGenerator:
         
         prompt = self._create_prompt(criteria)
         
-#         # Format prompt for chat
-#         formatted_prompt = f"""<|system|>
-# You are an expert running coach who creates detailed, personalized training plans.</s>
-# <|user|>
-# {prompt}</s>
-# <|assistant|>
-# """
-        formatted_prompt = (
-        "<start_of_turn>user\n"
-        "You are an expert running coach who creates detailed, personalized training plans.\n"
-        f"{prompt}\n"
-        "<end_of_turn>"
-        "<start_of_turn>model\n"
-    )
+        # Format prompt for chat
+        formatted_prompt = f"""<|system|>
+You are an expert running coach who creates detailed, personalized training plans.</s>
+<|user|>
+{prompt}</s>
+<|assistant|>
+"""
+    #     formatted_prompt = (
+    #     "<start_of_turn>user\n"
+    #     "You are an expert running coach who creates detailed, personalized training plans.\n"
+    #     f"{prompt}\n"
+    #     "<end_of_turn>"
+    #     "<start_of_turn>model\n"
+    # )
+    
         
         # Generate response
         response = self.model(
@@ -69,7 +70,8 @@ class RunningPlanGenerator:
             temperature=0.7,
             top_p=0.9,
             repeat_penalty=1.1,
-            stop=["<end_of_turn>"],
+            # stop=["<end_of_turn>"],
+            stop=["</s>", "<|user|>"],
             echo=False
         )
         
